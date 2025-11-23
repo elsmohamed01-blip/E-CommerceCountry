@@ -1,0 +1,144 @@
+﻿@model Product
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+    .product-page {
+        direction: rtl;
+        padding: 40px 0;
+        font-family: 'Cairo', sans-serif;
+    }
+
+    .product-container {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+    }
+
+    .product-image-box {
+        width: 45%;
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+
+        .product-image-box img {
+            width: 100%;
+            max-height: 380px;
+            object-fit: contain;
+        }
+
+    .product-details-box {
+        width: 55%;
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.08);
+    }
+
+    .product-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .product-price {
+        font-size: 28px;
+        font-weight: 700;
+        color: #ff6e00;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .product-info {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #666;
+    }
+
+    .qty-input {
+        width: 120px;
+        height: 45px;
+        font-size: 20px;
+        padding: 5px 10px;
+        margin-top: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+    .add-btn {
+        margin-top: 20px;
+        background: #ff6e00;
+        border: none;
+        padding: 12px 25px;
+        color: #fff;
+        font-size: 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .add-btn:hover {
+            background: #e66000;
+        }
+
+    .product-description {
+        margin-top: 25px;
+        font-size: 18px;
+        color: #444;
+        line-height: 1.7;
+    }
+</style>
+
+<div class="container product-page">
+
+    <div class="product-container">
+
+        <!-- Image -->
+        <div class="product-image-box">
+            @if (Model.ProductImages != null && Model.ProductImages.Any())
+            {
+<img src="~/@Model.ProductImages.First().Image" /> }
+else
+{
+<img src="~/@Model.Image" />}
+        </div>
+
+        <!-- Details -->
+        <div class="product-details-box">
+            <h1 class="product-title">@Model.Name</h1>
+
+            <div class="product-price">@Model.Currency @Model.Price</div>
+
+            <div class="product-info">
+                <strong>الكمية المتاحة:</strong> @Model.Quantity
+            </div>
+
+            <div class="product-info">
+                <strong>تاريخ المنتج:</strong> @Model.DateSystem
+            </div>
+
+            <form asp-action="AddToCart" method="post">
+                <input type="hidden" name="id" value="@Model.Id" />
+
+                <label><strong>الكمية:</strong></label>
+                <br />
+                <input type="number" name="quantity" class="qty-input" value="1" min="1" />
+
+                <br />
+                <button class="add-btn">
+                    <i class="fa fa-cart-plus"></i> أضف إلى السلة
+                </button>
+            </form>
+
+            <div class="product-description">
+                @Model.Description
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
